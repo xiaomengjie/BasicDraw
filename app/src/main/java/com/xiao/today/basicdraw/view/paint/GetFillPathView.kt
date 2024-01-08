@@ -7,6 +7,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 
+@Deprecated("作用不太清楚")
 class GetFillPathView(context: Context, attrs: AttributeSet): View(context, attrs) {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)

@@ -1,4 +1,4 @@
-package com.xiao.today.basicdraw.view
+package com.xiao.today.basicdraw.view.canvas
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
