@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathDashPathEffect
 import android.graphics.PathMeasure
+import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
@@ -39,7 +40,8 @@ class DashboardView(context: Context, attrs: AttributeSet) : View(context, attrs
 
     private val dashPath by lazy {
         Path().apply {
-            addArc(rectF, 135f, 270f)
+            arcTo(rectF, 135f, 270f)
+
         }
     }
 
@@ -78,6 +80,8 @@ class DashboardView(context: Context, attrs: AttributeSet) : View(context, attrs
         animation.start()
     }
 
+    private val textBounds = Rect()
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawColor(Color.CYAN)
@@ -87,37 +91,38 @@ class DashboardView(context: Context, attrs: AttributeSet) : View(context, attrs
         canvas.drawPath(dashPath, paint)
         paint.pathEffect = null
         //中间线
+        val length = pointerLength * 0.8f
         canvas.drawLine(
             width / 2f, height / 2f,
-            width / 2f + pointerLength * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
-            height / 2f + pointerLength * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
+            width / 2f + length * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
+            height / 2f + length * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
             paint
         )
         //左边线
         canvas.drawLine(
-            width / 2f + pointerLength * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
-            height / 2f + pointerLength * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
-            width / 2f + (pointerLength - 16.dp2px) * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed - 5).toDouble())).toFloat(),
-            height / 2f + (pointerLength - 16.dp2px) * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed - 5).toDouble())).toFloat(),
+            width / 2f + length * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
+            height / 2f + length * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
+            width / 2f + (length - 16.dp2px) * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed - 5).toDouble())).toFloat(),
+            height / 2f + (length - 16.dp2px) * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed - 5).toDouble())).toFloat(),
             paint
         )
         //右边线
         canvas.drawLine(
-            width / 2f + pointerLength * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
-            height / 2f + pointerLength * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
-            width / 2f + (pointerLength - 16.dp2px) * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed + 5).toDouble())).toFloat(),
-            height / 2f + (pointerLength - 16.dp2px) * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed + 5).toDouble())).toFloat(),
+            width / 2f + length * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
+            height / 2f + length * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed).toDouble())).toFloat(),
+            width / 2f + (length - 16.dp2px) * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed + 5).toDouble())).toFloat(),
+            height / 2f + (length - 16.dp2px) * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * currentSpeed + 5).toDouble())).toFloat(),
             paint
         )
-        // TODO: 画文字，待优化
         paint.textSize = 18.sp2px
+        paint.textAlign = Paint.Align.CENTER
         paint.color = Color.RED
         for (i in 0..10) {
+            paint.getTextBounds(i.toString(), 0, 1, textBounds)
             canvas.drawText(i.toString(),
-                width / 2f + (pointerLength + width/20f) * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * i).toDouble())).toFloat(),
-                height / 2f + (pointerLength + width/20f) * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * i).toDouble())).toFloat(),
+                width / 2f + (pointerLength) * cos(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * i).toDouble())).toFloat(),
+                height / 2f + (pointerLength) * sin(Math.toRadians((START_ANGLE + SWEEP_ANGLE / 10 * i).toDouble())).toFloat() - textBounds.top,
                 paint)
-
         }
     }
 }
