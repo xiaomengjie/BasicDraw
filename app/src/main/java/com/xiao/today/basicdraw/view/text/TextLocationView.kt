@@ -17,7 +17,7 @@ import com.xiao.today.basicdraw.dp2px
 * sp：取决于手机的像素密度以及系统字体大小
 * （适合阅读类型文本 - 新闻内容等）
 * */
-class TextDrawView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class TextLocationView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         /*

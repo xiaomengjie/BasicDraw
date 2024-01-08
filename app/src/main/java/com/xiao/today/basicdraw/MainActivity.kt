@@ -8,7 +8,7 @@ import com.xiao.today.basicdraw.view.paint.XfermodeAdapter
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_under_line)
+        setContentView(R.layout.activity_main_measure_text)
 //        useXfermode()
     }
 
