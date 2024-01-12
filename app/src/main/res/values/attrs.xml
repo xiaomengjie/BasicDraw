@@ -19,4 +19,15 @@
         <attr name="family" format="string" />
         <attr name="text" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="HighlightTextView">
+        <attr name="start" format="string"/>
+        <attr name="end" format="string"/>
+        <attr name="color" format="reference|color"/>
+    </declare-styleable>
+    
+    <declare-styleable name="CircleAvatarView">
+        <attr name="avatar" format="reference"/>
+        <attr name="sideWidth" format="dimension"/>
+    </declare-styleable>
 </resources>

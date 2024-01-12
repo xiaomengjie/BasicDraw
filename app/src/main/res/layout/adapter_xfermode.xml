@@ -16,7 +16,7 @@
         tools:text="SRC"
         android:textSize="40sp"/>
 
-    <com.xiao.today.basicdraw.view.paint.XfermodeView
+    <com.xiao.today.basicdraw.draw.paint.XfermodeView
         android:id="@+id/xfermode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

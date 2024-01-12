@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.xiao.today.basicdraw.view.drawsequence.ShowSizeImageView
+    <com.xiao.today.basicdraw.draw.drawsequence.ShowSizeImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/zdf1"/>
 
-    <com.xiao.today.basicdraw.view.drawsequence.HighlightTextView
+    <com.xiao.today.basicdraw.draw.drawsequence.HighlightTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/image"
