@@ -1,10 +1,20 @@
 package com.xiao.today.basicdraw.animator
 
 import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.Keyframe
 import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Point
+import android.util.AttributeSet
+import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.constraintlayout.motion.widget.KeyFrames
 import androidx.core.animation.addListener
 
 /*
@@ -113,3 +123,142 @@ fun addListener(viewPropertyAnimator: ViewPropertyAnimator, objectAnimator: Obje
 
     }
 }
+
+class HsvView(context: Context, attrs: AttributeSet) : View(context, attrs){
+
+    var color: Int = Color.WHITE
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        canvas.drawColor(color)
+    }
+}
+
+fun useCustomTypeEvaluator(view: HsvView){
+    val ofObject = ObjectAnimator.ofInt(
+        view, "color", Color.WHITE, Color.BLACK
+    )
+    /*
+    * 不使用默认的IntEvaluator
+    * 设置自定义的估值器HsvEvaluator
+    * */
+    ofObject.setEvaluator(HsvEvaluator())
+    ofObject.duration = 3_000
+    ofObject.start()
+
+    /*
+    * PointEvaluator：自定义Point类型属性的转换
+    * */
+    val valueAnimator = ObjectAnimator.ofObject(PointEvaluator(), Point(0, 0), Point(100, 100))
+    valueAnimator.addUpdateListener {
+        println(it.animatedValue)
+    }
+    valueAnimator.start()
+}
+
+/*
+* PropertyValuesHolder：一个动画改变多个属性
+* */
+fun usePropertyValuesHolder(view: View){
+    /*
+    * ObjectAnimator.ofPropertyValuesHolder
+    * */
+    val scaleX = PropertyValuesHolder.ofFloat(
+        "scaleX", 1f
+    )
+    val scaleY = PropertyValuesHolder.ofFloat(
+        "scaleY", 1f
+    )
+    val alpha = PropertyValuesHolder.ofFloat(
+        "alpha", 1f
+    )
+    val ofPropertyValuesHolder = ObjectAnimator.ofPropertyValuesHolder(
+        view, scaleX, scaleY, alpha
+    )
+    ofPropertyValuesHolder.start()
+}
+
+/*
+* 多个动画配合执行AnimatorSet
+* */
+fun useAnimatorSet(view: View){
+    val scaleX = ObjectAnimator.ofFloat(
+        view, "scaleX", 1f
+    )
+    val scaleY = ObjectAnimator.ofFloat(
+        view, "scaleY", 1f
+    )
+    val alpha = ObjectAnimator.ofFloat(
+        view, "alpha", 1f
+    )
+    /*
+    * 创建Animator
+    * 设置执行顺序
+    * 执行动画（start）
+    * */
+    val animatorSet = AnimatorSet()
+    /*
+    * playSequentially：顺序执行scaleX、scaleY
+    * */
+    animatorSet.playSequentially(scaleX, scaleY)
+    /*
+    * playTogether：同时执行scaleX、scaleY
+    * */
+    animatorSet.playTogether(scaleX, scaleY)
+    /*
+    * play(scaleX).with(scaleY)：同时执行scaleX、scaleY
+    * */
+    animatorSet.play(scaleX).with(scaleY)
+    /*
+    * play(scaleX).before(scaleY)：先执行scaleX，再执行scaleY
+    * */
+    animatorSet.play(scaleX).before(scaleY)
+    /*
+    * play(scaleX).after(scaleY)：先执行scaleY，再执行scaleX
+    * */
+    animatorSet.play(scaleX).after(scaleY)
+
+    /*
+    * scaleX、scaleX、alpha
+    * */
+    animatorSet.play(scaleY).after(scaleX)
+    animatorSet.play(scaleY).before(alpha)
+
+    /*
+    * start()：开始执行
+    * */
+    animatorSet.start()
+}
+
+/*
+* 通过这是关键帧的属性值，控制动画
+* */
+fun useKeyFrame(view: View){
+    /*
+    * 完成10%时，属性值为100f
+    * */
+    val keyframe1 = Keyframe.ofFloat(0.1f, 100f)
+    /*
+    * 完成50%时，属性值为50f
+    * */
+    val keyframe2 = Keyframe.ofFloat(0.5f, 50f)
+    /*
+    * 完成90%时，属性值为100f
+    * */
+    val keyframe3 = Keyframe.ofFloat(0.9f, 100f)
+    /*
+    * 完成100%时，属性值为0f
+    * */
+    val keyframe4 = Keyframe.ofFloat(1.0f, 0f)
+    val propertyValuesHolder = PropertyValuesHolder.ofKeyframe(
+        "translationX", keyframe1, keyframe2, keyframe3, keyframe4
+    )
+    val animator = ObjectAnimator.ofPropertyValuesHolder(view, propertyValuesHolder)
+    animator.start()
+}
+
+
