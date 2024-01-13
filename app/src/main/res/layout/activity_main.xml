@@ -8,12 +8,11 @@
     tools:context=".MainActivity">
 
     <com.xiao.today.basicdraw.practice.CircleAvatarView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="8dp"
         app:avatar="@drawable/avatar"
-        app:sideWidth="8dp"/>
+        app:sideWidth="4dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

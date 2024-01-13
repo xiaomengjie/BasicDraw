@@ -24,22 +24,21 @@ class CircleAvatarView(context: Context, attrs: AttributeSet) : View(context, at
 
     private val drawable: Drawable
 
-    private val default = 56f.dp2px
+    private val radius = 30f.dp2px
 
     init {
         val obtainStyledAttributes =
             context.obtainStyledAttributes(attrs, R.styleable.CircleAvatarView)
         sideWidth =
             obtainStyledAttributes.getDimensionPixelSize(R.styleable.CircleAvatarView_sideWidth, 0)
-        drawable =
-            obtainStyledAttributes.getDrawableOrThrow(R.styleable.CircleAvatarView_avatar)
+        drawable = obtainStyledAttributes.getDrawableOrThrow(R.styleable.CircleAvatarView_avatar)
         obtainStyledAttributes.recycle()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val width = resolveSize((default + sideWidth).toInt(), widthMeasureSpec)
-        val height = resolveSize((default + sideWidth).toInt(), heightMeasureSpec)
+        val width = resolveSize(((radius + sideWidth) * 2).toInt(), widthMeasureSpec)
+        val height = resolveSize(((radius + sideWidth) * 2).toInt(), heightMeasureSpec)
         setMeasuredDimension(width, height)
     }
 
@@ -49,11 +48,23 @@ class CircleAvatarView(context: Context, attrs: AttributeSet) : View(context, at
         canvas.drawOval(0f, 0f, width.toFloat(), height.toFloat(), paint)
         //离屏缓冲
         val saveLayer = canvas.saveLayer(
-            0f, 0f, width.toFloat(), height.toFloat(), paint
+            sideWidth.toFloat(),
+            sideWidth.toFloat(),
+            width.toFloat() - sideWidth,
+            height.toFloat() - sideWidth,
+            paint
         )
-        canvas.drawOval(sideWidth.toFloat(), sideWidth.toFloat(), width.toFloat() - sideWidth, height.toFloat()- sideWidth, paint)
+        //destination
+        canvas.drawOval(
+            sideWidth.toFloat(),
+            sideWidth.toFloat(),
+            width.toFloat() - sideWidth,
+            height.toFloat() - sideWidth,
+            paint
+        )
         paint.xfermode = xfermode
-        val bitmap = drawable.toBitmap(width, height)
+        val bitmap = drawable.toBitmap(width - sideWidth * 2, height - sideWidth * 2)
+        //source
         canvas.drawBitmap(bitmap, sideWidth.toFloat(), sideWidth.toFloat(), paint)
         paint.xfermode = null
         canvas.restoreToCount(saveLayer)

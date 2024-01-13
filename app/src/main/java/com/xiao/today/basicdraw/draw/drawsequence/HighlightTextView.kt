@@ -21,6 +21,9 @@ class HighlightTextView(context: Context, attrs: AttributeSet) : AppCompatTextVi
 
     private val measuredWidth = floatArrayOf(0f)
 
+    private var startCharLineCount: Int = 0
+    private var endCharLineCount: Int = 0
+
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.HighlightTextView)
         array.getString(R.styleable.HighlightTextView_start)?.let {
@@ -36,6 +39,7 @@ class HighlightTextView(context: Context, attrs: AttributeSet) : AppCompatTextVi
         }
         array.recycle()
         paint.getFontMetrics(fontMetrics)
+
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -43,39 +47,66 @@ class HighlightTextView(context: Context, attrs: AttributeSet) : AppCompatTextVi
             super.onDraw(canvas)
             return
         }
-        //整个文本的长度
-        val measureTextWidth = paint.measureText(text, 0, text.length)
-        if (measureTextWidth > width){ //多行文本
-            val lineIndex = paint.getOffsetForAdvance(
-                text, 0, text.length, 0, text.length, false, width.toFloat()
-            )
-            val startLine = startCharIndex / lineIndex
-            val endLine = endCharIndex / lineIndex
-            val lineWidth = paint.getRunAdvance(
-                text, 0, text.length, 0, text.length, false, lineIndex
-            )
-            val startCharAdvance = paint.getRunAdvance(
-                text, 0, text.length, 0, text.length, false, startCharIndex
-            )
-            val endCharAdvance = paint.getRunAdvance(
-                text, 0, text.length, 0, text.length, false, endCharIndex + 1
-            )
-            val spacing = (fontMetrics.bottom - fontMetrics.top) + (fontMetrics.ascent - fontMetrics.top)
-            val left = startCharAdvance - lineWidth * startLine
-            val right = endCharAdvance - lineWidth * endLine
-            if (startLine == endLine){
-                canvas.drawRect(left, baseline + fontMetrics.top + spacing * startLine, right, baseline + fontMetrics.bottom + spacing * startLine, rectFPaint)
+        var start = 0
+        var left: Float = -1f
+        var right: Float = -1f
+        while (start < endCharIndex + 1){
+            val lineTextCount =
+                paint.breakText(text, start, endCharIndex + 1, true, width.toFloat(), measuredWidth)
+            if (start + lineTextCount < startCharIndex + 1){
+                startCharLineCount++
+            }else{
+                if (left < 0){
+                    paint.breakText(text, start, startCharIndex, true, width.toFloat(), measuredWidth)
+                    left = measuredWidth[0]
+                }
             }
-        }else{
-            //单行文本
-            val startCharAdvance = paint.getRunAdvance(
-                text, 0, text.length, 0, text.length, false, startCharIndex
-            )
-            val endCharAdvance = paint.getRunAdvance(
-                text, 0, text.length, 0, text.length, false, endCharIndex + 1
-            )
-            canvas.drawRect(startCharAdvance, baseline + fontMetrics.top, endCharAdvance, baseline + fontMetrics.bottom, rectFPaint)
+            if (start + lineTextCount < endCharIndex + 1){
+                endCharLineCount++
+            }else{
+                paint.breakText(text, start, endCharIndex + 1, true, width.toFloat(), measuredWidth)
+                right = measuredWidth[0]
+            }
+            start += lineTextCount
         }
+        println(startCharLineCount)
+        println(endCharLineCount)
+        println(left)
+        println(right)
+
+//        //整个文本的长度
+//        val measureTextWidth = paint.measureText(text, 0, text.length)
+//        if (measureTextWidth > width){ //多行文本
+//            val lineIndex = paint.getOffsetForAdvance(
+//                text, 0, text.length, 0, text.length, false, width.toFloat()
+//            )
+//            val startLine = startCharIndex / lineIndex
+//            val endLine = endCharIndex / lineIndex
+//            val lineWidth = paint.getRunAdvance(
+//                text, 0, text.length, 0, text.length, false, lineIndex
+//            )
+//            val startCharAdvance = paint.getRunAdvance(
+//                text, 0, text.length, 0, text.length, false, startCharIndex
+//            )
+//            val endCharAdvance = paint.getRunAdvance(
+//                text, 0, text.length, 0, text.length, false, endCharIndex + 1
+//            )
+//            val spacing = (fontMetrics.bottom - fontMetrics.top) + (fontMetrics.ascent - fontMetrics.top)
+//            val left = startCharAdvance - lineWidth * startLine
+//            val right = endCharAdvance - lineWidth * endLine
+//            if (startLine == endLine){
+//                canvas.drawRect(left, baseline + fontMetrics.top + spacing * startLine, right, baseline + fontMetrics.bottom + spacing * startLine, rectFPaint)
+//            }
+//        }else{
+//            //单行文本
+//            val startCharAdvance = paint.getRunAdvance(
+//                text, 0, text.length, 0, text.length, false, startCharIndex
+//            )
+//            val endCharAdvance = paint.getRunAdvance(
+//                text, 0, text.length, 0, text.length, false, endCharIndex + 1
+//            )
+//            canvas.drawRect(startCharAdvance, baseline + fontMetrics.top, endCharAdvance, baseline + fontMetrics.bottom, rectFPaint)
+//        }
 
 
 //        var start = 0

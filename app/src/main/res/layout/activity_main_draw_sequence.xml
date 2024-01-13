@@ -22,6 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:text="我最喜欢的电视是陪你一起"
         android:textSize="40dp"
-        app:start="你"
-        app:end="一" />
+        app:start="我"
+        app:end="起" />
 </androidx.constraintlayout.widget.ConstraintLayout>

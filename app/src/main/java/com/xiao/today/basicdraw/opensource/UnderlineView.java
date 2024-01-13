@@ -1,4 +1,4 @@
-package com.xiao.today.basicdraw.open;
+package com.xiao.today.basicdraw.opensource;
 
 import android.content.Context;
 import android.content.res.TypedArray;

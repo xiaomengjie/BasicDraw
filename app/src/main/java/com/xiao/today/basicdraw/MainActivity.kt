@@ -10,7 +10,7 @@ import com.xiao.today.basicdraw.draw.paint.XfermodeAdapter
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_circle_progress)
+        setContentView(R.layout.activity_main_draw_sequence)
 //        useAnimator()
     }
 
