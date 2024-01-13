@@ -16,12 +16,10 @@
         android:src="@drawable/zdf1"/>
 
     <com.xiao.today.basicdraw.draw.drawsequence.HighlightTextView
+        android:id="@+id/high_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/image"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="我最喜欢的电视是陪你一起"
-        android:textSize="40dp"
-        app:start="我"
-        app:end="起" />
+        android:textSize="20sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
