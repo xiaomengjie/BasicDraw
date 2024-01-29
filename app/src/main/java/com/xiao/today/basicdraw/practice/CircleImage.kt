@@ -1,4 +1,4 @@
-package com.xiao.today.basicdraw.layout
+package com.xiao.today.basicdraw.practice
 
 import android.content.Context
 import android.graphics.BitmapShader
