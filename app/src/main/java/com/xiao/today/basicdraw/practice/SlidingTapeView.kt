@@ -11,7 +11,7 @@ import android.view.View
 import androidx.core.animation.addListener
 import com.xiao.today.basicdraw.dp2px
 
-
+@Deprecated("思路有问题")
 class SlidingTapeView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
