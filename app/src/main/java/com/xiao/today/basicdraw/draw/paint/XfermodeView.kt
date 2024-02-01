@@ -114,6 +114,7 @@ class XfermodeView(context: Context, attrs: AttributeSet) : View(context, attrs)
             BASIC_WIDTH * 5.5f,
             paint
         )
+        //通过canvas向bitmap中绘制图形
         canvas.setBitmap(sourceBitmap)
         paint.color = Color.parseColor("#4994ec")
         canvas.drawRect(

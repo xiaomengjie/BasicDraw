@@ -40,6 +40,10 @@ class FlowLayout(context: Context, attrs: AttributeSet?) : ViewGroup(context, at
 
     @SuppressLint("DrawAllocation")
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        /**
+         * 测量时考虑自己的padding和子view的margin（会影响当前ViewGroup的可用宽度）
+         */
+
         val parentMaxWidth = MeasureSpec.getSize(widthMeasureSpec) - (paddingStart + paddingEnd)
 
         val adapter = flowAdapter
@@ -75,8 +79,10 @@ class FlowLayout(context: Context, attrs: AttributeSet?) : ViewGroup(context, at
                 if (widthUsed + childNeedWidth >= parentMaxWidth) {
                     maxWidth = max(maxWidth, widthUsed)
                     widthUsed = childNeedWidth
+
                     heightUsed += lineMaxHeight
                     lineMaxHeight = childNeedHeight
+
                     viewLeft = paddingStart + view.marginStart
                     firstLine = false
                 } else {
@@ -131,7 +137,7 @@ class FlowLayout(context: Context, attrs: AttributeSet?) : ViewGroup(context, at
      * ViewGroup.LayoutParams：只会从attrs中取出基本的 layout_width 和 layout_height的值
      * 如果想要拿到layout_margin相关的值，用 ViewGroup.MarginLayoutParams
      */
-    override fun generateLayoutParams(attrs: AttributeSet?): LayoutParams {
+    override fun generateLayoutParams(attrs: AttributeSet): LayoutParams {
         return MarginLayoutParams(context, attrs)
     }
 }

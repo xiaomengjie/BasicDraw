@@ -18,8 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_flow_layout)
-        flowLayout()
+        setContentView(R.layout.activity_main_drawable_view)
     }
 
     private fun highLightView() {
