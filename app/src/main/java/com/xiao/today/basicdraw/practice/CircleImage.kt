@@ -11,6 +11,9 @@ import com.xiao.today.basicdraw.R
 import com.xiao.today.basicdraw.dp2px
 import com.xiao.today.basicdraw.loadAvatar
 
+/**
+ * BitmapShader实现
+ */
 class CircleImage(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val bitmap = context.loadAvatar(R.drawable.avatar, 100f.dp2px.toInt())

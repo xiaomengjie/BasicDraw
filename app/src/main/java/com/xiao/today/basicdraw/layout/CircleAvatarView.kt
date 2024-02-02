@@ -13,6 +13,9 @@ import androidx.core.graphics.drawable.toBitmap
 import com.xiao.today.basicdraw.R
 import com.xiao.today.basicdraw.dp2px
 
+/**
+ * xfermode实现
+ */
 class CircleAvatarView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)

@@ -12,7 +12,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.xiao.today.basicdraw.R
 import com.xiao.today.basicdraw.dp2px
 
-class MultiLineView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class MultiLineTextView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 20f.dp2px

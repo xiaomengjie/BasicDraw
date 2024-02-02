@@ -59,9 +59,9 @@ class FlowLayout(context: Context, attrs: AttributeSet?) : ViewGroup(context, at
             //每行最大高度
             var lineMaxHeight = 0
             //每个View的left
-            var viewLeft = 0
+            var viewLeft: Int
             //每个view的top
-            var viewTop = 0
+            var viewTop: Int
 
             var firstLine = true
 

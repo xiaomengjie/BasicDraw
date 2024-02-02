@@ -1,7 +1,6 @@
 package com.xiao.today.basicdraw.drawable
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.ColorFilter
 import android.graphics.Paint
@@ -10,13 +9,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
 import com.xiao.today.basicdraw.dp2px
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.OutputStream
 
 class RectAvatarDrawable(
     private val bitmap: Bitmap,
@@ -35,6 +28,7 @@ class RectAvatarDrawable(
         canvas.drawRoundRect(rect, rx, ry, paint)
         paint.xfermode = xfermode
         canvas.drawBitmap(compressBitmap(bitmap), 0f, 0f, paint)
+        paint.xfermode = null
         canvas.restoreToCount(saveLayer)
     }
 
@@ -73,7 +67,7 @@ class RectAvatarDrawable(
      * PixelFormat.TRANSLUCENT：半透明（下面内容一部分显示）
      * PixelFormat.OPAQUE：不透明，覆盖drawable下面的内容
      *
-     * 不知道怎么用----------->
+     * 不知道怎么用----------->用PixelFormat.TRANSLUCENT
      */
     @Deprecated(
         "Deprecated in Java",
