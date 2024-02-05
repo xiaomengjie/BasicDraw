@@ -6,19 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.xiao.today.basicdraw.animator.useViewPropertyAnimator
 import com.xiao.today.basicdraw.draw.drawsequence.HighlightTextView
 import com.xiao.today.basicdraw.draw.paint.XfermodeAdapter
 import com.xiao.today.basicdraw.layout.FlowAdapter
 import com.xiao.today.basicdraw.layout.FlowLayout
+import com.xiao.today.basicdraw.layout.viewpage.ItemFragment
+import com.xiao.today.basicdraw.layout.viewpage.ViewPageFragment
+import com.xiao.today.basicdraw.layout.viewpage.WrapHeightViewPager
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_drawable_view)
+        setContentView(R.layout.activity_main_scalable_image_view)
     }
 
     private fun highLightView() {
@@ -72,6 +77,41 @@ class MainActivity : AppCompatActivity() {
             override fun count(): Int {
                 return dataList.size
             }
+        }
+    }
+
+    private fun setViewPager(){
+        val fragments = arrayOf(
+            ViewPageFragment.newInstance("fragment", "one"),
+            ViewPageFragment.newInstance("fragment", "two"))
+        val wrapHeightViewPager = findViewById<WrapHeightViewPager>(R.id.viewPager)
+        wrapHeightViewPager.adapter = object : FragmentPagerAdapter(supportFragmentManager){
+            override fun getCount(): Int {
+                return fragments.size
+            }
+
+            override fun getItem(position: Int): Fragment {
+                return fragments[position]
+            }
+
+        }
+    }
+
+    private fun itemViewPager(){
+        val fragments = arrayOf(
+            ItemFragment.newInstance(1),
+            ItemFragment.newInstance(1),
+            ItemFragment.newInstance(1))
+        val wrapHeightViewPager = findViewById<WrapHeightViewPager>(R.id.viewPager)
+        wrapHeightViewPager.adapter = object : FragmentPagerAdapter(supportFragmentManager){
+            override fun getCount(): Int {
+                return fragments.size
+            }
+
+            override fun getItem(position: Int): Fragment {
+                return fragments[position]
+            }
+
         }
     }
 }

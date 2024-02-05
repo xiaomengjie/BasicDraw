@@ -31,11 +31,11 @@ class MultiLineTextView(context: Context, attrs: AttributeSet) : View(context, a
     private val textBounds: Rect = Rect()
 
     init {
-        val array = context.obtainStyledAttributes(attrs, R.styleable.MultiLineView)
-        val imageDrawable = array.getDrawableOrThrow(R.styleable.MultiLineView_imageSrc)
-        val imageSize = array.getDimension(R.styleable.MultiLineView_imageSize, defaultImageWidth)
-        paddingTop = array.getDimensionPixelSize(R.styleable.MultiLineView_imagePaddingTop, 0)
-        paddingEnd = array.getDimensionPixelSize(R.styleable.MultiLineView_imagePaddingEnd, 0)
+        val array = context.obtainStyledAttributes(attrs, R.styleable.MultiLineTextView)
+        val imageDrawable = array.getDrawableOrThrow(R.styleable.MultiLineTextView_imageSrc)
+        val imageSize = array.getDimension(R.styleable.MultiLineTextView_imageSize, defaultImageWidth)
+        paddingTop = array.getDimensionPixelSize(R.styleable.MultiLineTextView_imagePaddingTop, 0)
+        paddingEnd = array.getDimensionPixelSize(R.styleable.MultiLineTextView_imagePaddingEnd, 0)
         bitmap = imageDrawable.toBitmap(imageSize.toInt(), imageSize.toInt())
         array.recycle()
     }

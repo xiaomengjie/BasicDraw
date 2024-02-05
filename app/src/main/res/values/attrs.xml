@@ -4,7 +4,7 @@
         <attr name="xfermode" format="string"/>
     </declare-styleable>
 
-    <declare-styleable name="MultiLineView">
+    <declare-styleable name="MultiLineTextView">
         <attr name="imagePaddingTop" format="dimension"/>
         <attr name="imagePaddingEnd" format="dimension"/>
         <attr name="imageSize" format="dimension"/>
