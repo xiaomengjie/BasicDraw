@@ -30,4 +30,10 @@
         <attr name="avatar" format="reference"/>
         <attr name="sideWidth" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="ScalableImageView">
+        <attr name="src" format="reference"/>
+        <attr name="image_width" format="dimension"/>
+        <attr name="scalable" format="boolean"/>
+    </declare-styleable>
 </resources>
