@@ -11,7 +11,7 @@ import android.view.View
 import com.xiao.today.basicdraw.dp2px
 
 /**
- * 多指触摸：协作型（多根手指同时起作用）
+ * 多指触摸：协作型（多根手指同时起作用，取多指中心点）
  */
 class PointsCoordinateMoveView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
