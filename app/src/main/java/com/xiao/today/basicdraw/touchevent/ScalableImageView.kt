@@ -21,7 +21,13 @@ import androidx.core.view.ViewCompat
 import com.xiao.today.basicdraw.R
 import com.xiao.today.basicdraw.dp2px
 
-
+/**
+ * 手势处理
+ * GestureDetector：单击、双击、移动、快速滑动等
+ * ScaleGestureDetector：双指缩放
+ *
+ * OverScroller：滑动位移计算工具
+ */
 class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val defaultWidth = 300f.dp2px.toInt()
