@@ -14,7 +14,9 @@ import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
 import android.widget.OverScroller
+import androidx.annotation.DrawableRes
 import androidx.core.animation.doOnEnd
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.res.getDrawableOrThrow
 import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.core.view.ViewCompat
@@ -28,11 +30,11 @@ import com.xiao.today.basicdraw.dp2px
  *
  * OverScroller：滑动位移计算工具
  */
-class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     private val defaultWidth = 300f.dp2px.toInt()
 
-    private val bitmap: Bitmap?
+    private var bitmap: Bitmap? = null
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -78,17 +80,25 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
 
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.ScalableImageView)
-        val drawable = array.getDrawableOrThrow(R.styleable.ScalableImageView_src)
-        //图片宽度
-        val width =
-            array.getDimensionPixelSize(R.styleable.ScalableImageView_image_width, defaultWidth)
-        scalable = array.getBoolean(R.styleable.ScalableImageView_scalable, true)
+        val drawable = array.getDrawable(R.styleable.ScalableImageView_src)
+        if (drawable != null){
+            //图片宽度
+            val width =
+                array.getDimensionPixelSize(R.styleable.ScalableImageView_image_width, defaultWidth)
+            scalable = array.getBoolean(R.styleable.ScalableImageView_scalable, true)
+            //转换为bitmap
+            bitmap = drawable.toBitmapOrNull(
+                width = width,
+                height = (drawable.intrinsicHeight / drawable.intrinsicWidth.toFloat() * width).toInt()
+            )
+        }
         array.recycle()
-        //转换为bitmap
-        bitmap = drawable.toBitmapOrNull(
-            width = width,
-            height = (drawable.intrinsicHeight / drawable.intrinsicWidth.toFloat() * width).toInt()
-        )
+    }
+
+    fun setImageResource(@DrawableRes res: Int){
+        val drawable = ResourcesCompat.getDrawable(resources, res, null)
+        bitmap = drawable?.toBitmapOrNull(width = defaultWidth,
+            height = (drawable.intrinsicHeight / drawable.intrinsicWidth.toFloat() * defaultWidth).toInt())
     }
 
 
@@ -140,7 +150,7 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
      * 控制最大最小偏移
      */
     private fun fixOffset() {
-        if (bitmap == null) return
+        val bitmap = bitmap?: return
         val maxWidth = (bigScale * bitmap.width - width) / 2f
         val maxHeight = (bigScale * bitmap.height - height) / 2f
         offsetX = minOf(offsetX, maxWidth)
@@ -161,7 +171,7 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
             velocityY: Float
         ): Boolean {
             if (isBig) {
-                if (bitmap == null) return false
+                val bitmap = bitmap?: return false
                 overScroller.fling(
                     offsetX.toInt(), offsetY.toInt(), velocityX.toInt(), velocityY.toInt(),
                     (-(bitmap.width * bigScale - width) / 2f).toInt(),
@@ -201,6 +211,7 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
             if (isBig) {
                 //点击时初始位移
                 //防止因为offsetX和offsetY突然改变跳动
+                //双指撑开后，双击时，isBig为true，添加判断避免重新改变偏移
                 if (offsetX == 0f && offsetY == 0f){
                     offsetX = (event.x - width / 2f) * (1 - bigScale / smallScale)
                     offsetY = (event.y - height / 2f) * (1 - bigScale / smallScale)
@@ -230,9 +241,11 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
         }
 
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-            offsetX = (detector.focusX - width / 2f) * (1 - bigScale / smallScale)
-            offsetY = (detector.focusY - height / 2f) * (1 - bigScale / smallScale)
-            fixOffset()
+            if (currentScale == smallScale){
+                offsetX = (detector.focusX - width / 2f) * (1 - bigScale / smallScale)
+                offsetY = (detector.focusY - height / 2f) * (1 - bigScale / smallScale)
+                fixOffset()
+            }
             return true
         }
 
@@ -253,5 +266,3 @@ class ScalableImageView(context: Context, attrs: AttributeSet) : View(context, a
         }
     }
 }
-
-// TODO: 1、放大后再次缩放跳动问题（offsetX和offsetY突变导致）

@@ -176,7 +176,7 @@ class DrawApiView(context: Context, attrs: AttributeSet) : View(context, attrs) 
             Path.Direction.CCW
         )
 
-        /* addOval：添加椭圆path */
+        /* addOvaFl：添加椭圆path */
         path.addOval(rectF, Path.Direction.CW)
         path.addOval(
             0f, (height - width) / 2f, width.toFloat(), (height + width) / 2f, Path.Direction.CCW

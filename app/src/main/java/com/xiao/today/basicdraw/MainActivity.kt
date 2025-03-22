@@ -17,13 +17,15 @@ import com.xiao.today.basicdraw.layout.FlowLayout
 import com.xiao.today.basicdraw.layout.viewpage.ItemFragment
 import com.xiao.today.basicdraw.layout.viewpage.ViewPageFragment
 import com.xiao.today.basicdraw.layout.viewpage.WrapHeightViewPager
+import com.xiao.today.basicdraw.touchevent.ScalableImageView
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_two_page)
+        setContentView(R.layout.activity_main_scalable_image_view)
+        findViewById<ScalableImageView>(R.id.scalable_image).setImageResource(R.drawable.avatar)
     }
 
     private fun highLightView() {

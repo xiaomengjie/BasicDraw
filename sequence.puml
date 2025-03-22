@@ -1,0 +1,37 @@
+@startuml
+
+participant A
+participant B
+participant C
+
+'同步方式，等待返回后才能执行下一步，返回结果
+A -> B: 同步方法 b()
+activate B
+A <-- B: 返回结果
+deactivate B
+
+'异步方法，无需等待直接执行下一步
+A ->> B: 发送异步消息
+note right of A: A 不会等待 B 处理完成
+activate B
+deactivate B
+
+'同步方法，同步返回
+A -> B: methodB()
+activate B
+B -> C: methodC()
+activate C
+B <-- C: return C
+deactivate C
+A <-- B: return B
+deactivate B
+
+'异步调用，异步返回
+A ->> B: 异步 methodB
+note right of A: A 继续执行
+B ->> C: 异步 methodC
+activate C
+B <<-- C: 异步返回 C
+deactivate C
+A <<-- B: 异步返回 B
+@enduml

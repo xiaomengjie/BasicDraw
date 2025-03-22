@@ -10,7 +10,6 @@ import android.view.MotionEvent
 import androidx.annotation.DrawableRes
 import androidx.core.view.GestureDetectorCompat
 import kotlin.math.cos
-import kotlin.math.sign
 import kotlin.math.sin
 
 val Float.dp2px
